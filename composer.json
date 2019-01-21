@@ -1,0 +1,16 @@
+{
+    "name": "artem/logger-php-client",
+    "description": "PHP client logger",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Artem Bondarchuk",
+            "email": "arzek2015@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php-curl-class/php-curl-class": "dev-master"
+    }
+}
