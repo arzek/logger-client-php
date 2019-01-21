@@ -9,7 +9,6 @@
             "email": "arzek2015@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "autoload": {
         "psr-0": {
             "Logger": "src/"
