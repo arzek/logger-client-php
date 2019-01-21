@@ -16,6 +16,6 @@
         }
     },
     "require": {
-        "php-curl-class/php-curl-class": "dev-master"
+        "php-curl-class/php-curl-class": "*"
     }
 }
