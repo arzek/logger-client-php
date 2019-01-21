@@ -20,34 +20,42 @@ class Log
      * @param $message
      * @param $context
      */
-    private static function sendLog($level, $message, $context) {
+    private static function sendLog($level, $message,$context = null)
+    {
         $data = [
             'token' => getenv('LOGGER_TOKEN'),
-            'env' => self::getRealIpAddr(),
+            'env' => 'localhost',
             'level' => $level,
-            'message' => $message,
-            'context' => $context
+            'message' => $message
         ];
 
-        $data_string = json_encode($data);
+        if ($context) {
+            $data['context'] = $context;
+        }
 
-        $ch = curl_init(getenv('LOGGER_URL'));
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($data_string))
-        );
+        $url = getenv('LOGGER_URL');
 
-        $result = curl_exec($ch);
+        $ch = curl_init($url);
+
+        $jsonDataEncoded = json_encode($data);
+
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        curl_exec($ch);
     }
 
     /**
      * @param $message
      * @param $context
      */
-    public static function info($message, $context) {
+    public static function info($message, $context = null)
+    {
         self::sendLog('INFO', $message, $context);
     }
 
@@ -55,7 +63,8 @@ class Log
      * @param $message
      * @param $context
      */
-    public static function debug($message, $context) {
+    public static function debug($message,$context = null)
+    {
         self::sendLog('DEBUG', $message, $context);
     }
 
@@ -63,7 +72,8 @@ class Log
      * @param $message
      * @param $context
      */
-    public static function notice($message, $context) {
+    public static function notice($message,$context = null)
+    {
         self::sendLog('NOTICE', $message, $context);
     }
 
@@ -71,7 +81,8 @@ class Log
      * @param $message
      * @param $context
      */
-    public static function warning($message, $context) {
+    public static function warning($message,$context = null)
+    {
         self::sendLog('WARNING', $message, $context);
     }
 
@@ -79,7 +90,8 @@ class Log
      * @param $message
      * @param $context
      */
-    public static function error($message, $context) {
+    public static function error($message,$context = null)
+    {
         self::sendLog('ERROR', $message, $context);
     }
 
@@ -87,7 +99,8 @@ class Log
      * @param $message
      * @param $context
      */
-    public static function critical($message, $context) {
+    public static function critical($message,$context = null)
+    {
         self::sendLog('CRITICAL', $message, $context);
     }
 
@@ -95,7 +108,8 @@ class Log
      * @param $message
      * @param $context
      */
-    public static function alert($message, $context) {
+    public static function alert($message,$context = null)
+    {
         self::sendLog('ALERT', $message, $context);
     }
 
@@ -103,28 +117,9 @@ class Log
      * @param $message
      * @param $context
      */
-    public static function emergency($message, $context) {
-        self::sendLog('EMERGENCY', $message, $context);
-    }
-
-    /**
-     * @return mixed
-     */
-    private static function getRealIpAddr()
+    public static function emergency($message,$context = null)
     {
-        if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
-        {
-            $ip=$_SERVER['HTTP_CLIENT_IP'];
-        }
-        elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
-        {
-            $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-        }
-        else
-        {
-            $ip=$_SERVER['REMOTE_ADDR'];
-        }
-        return $ip;
+        self::sendLog('EMERGENCY', $message, $context);
     }
 
 }
