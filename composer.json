@@ -1,5 +1,5 @@
 {
-    "name": "artem/logger-php-client",
+    "name": "arzek/logger-php-client",
     "description": "PHP client logger",
     "type": "library",
     "license": "MIT",
@@ -10,6 +10,11 @@
         }
     ],
     "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {
+            "Logger": "src/"
+        }
+    },
     "require": {
         "php-curl-class/php-curl-class": "dev-master"
     }
