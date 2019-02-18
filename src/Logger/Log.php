@@ -18,9 +18,9 @@ class Log
 
     private $api;
 
-    public function __construct($token, $api) {
-      $this->token = $token;
-      $this->api = $api;
+    public function __construct($options) {
+      $this->token = $options['token'];
+      $this->api = $options['api'];
     }
 
     /**
