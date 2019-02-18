@@ -14,16 +14,24 @@ namespace Logger;
  */
 class Log
 {
+    private $token;
+
+    private $api;
+
+    public function __construct($token, $api) {
+      $this->token = $token;
+      $this->api = $api;
+    }
 
     /**
      * @param $level
      * @param $message
      * @param $context
      */
-    private static function sendLog($level, $message,$context = null)
+    private function sendLog($level, $message,$context = null)
     {
         $data = [
-            'token' => getenv('LOGGER_TOKEN'),
+            'token' => $this->token,
             'env' => 'localhost',
             'level' => $level,
             'message' => $message
@@ -33,9 +41,7 @@ class Log
             $data['context'] = $context;
         }
 
-        $url = getenv('LOGGER_URL');
-
-        $ch = curl_init($url);
+        $ch = curl_init($this->api);
 
         $jsonDataEncoded = json_encode($data);
 
@@ -54,72 +60,72 @@ class Log
      * @param $message
      * @param $context
      */
-    public static function info($message, $context = null)
+    public function info($message, $context = null)
     {
-        self::sendLog('INFO', $message, $context);
+        $this->sendLog('INFO', $message, $context);
     }
 
     /**
      * @param $message
      * @param $context
      */
-    public static function debug($message,$context = null)
+    public function debug($message,$context = null)
     {
-        self::sendLog('DEBUG', $message, $context);
+        $this->sendLog('DEBUG', $message, $context);
     }
 
     /**
      * @param $message
      * @param $context
      */
-    public static function notice($message,$context = null)
+    public function notice($message,$context = null)
     {
-        self::sendLog('NOTICE', $message, $context);
+        $this->sendLog('NOTICE', $message, $context);
     }
 
     /**
      * @param $message
      * @param $context
      */
-    public static function warning($message,$context = null)
+    public function warning($message,$context = null)
     {
-        self::sendLog('WARNING', $message, $context);
+        $this->sendLog('WARNING', $message, $context);
     }
 
     /**
      * @param $message
      * @param $context
      */
-    public static function error($message,$context = null)
+    public function error($message,$context = null)
     {
-        self::sendLog('ERROR', $message, $context);
+        $this->sendLog('ERROR', $message, $context);
     }
 
     /**
      * @param $message
      * @param $context
      */
-    public static function critical($message,$context = null)
+    public function critical($message,$context = null)
     {
-        self::sendLog('CRITICAL', $message, $context);
+        $this->sendLog('CRITICAL', $message, $context);
     }
 
     /**
      * @param $message
      * @param $context
      */
-    public static function alert($message,$context = null)
+    public function alert($message,$context = null)
     {
-        self::sendLog('ALERT', $message, $context);
+        $this->sendLog('ALERT', $message, $context);
     }
 
     /**
      * @param $message
      * @param $context
      */
-    public static function emergency($message,$context = null)
+    public function emergency($message,$context = null)
     {
-        self::sendLog('EMERGENCY', $message, $context);
+        $this->sendLog('EMERGENCY', $message, $context);
     }
 
 }
